@@ -10,16 +10,17 @@ function Cocina(){
 
 
 const [pedidos,setPedidos]=useState([]);
+const [fechaSeleccionada, setFechaSeleccionada] = useState( new Date().toISOString().split("T")[0] );
 
 
 
 async function cargarPedidos(){
 
 
-const hoy =
+/*const hoy =
 new Date()
 .toISOString()
-.split("T")[0];
+.split("T")[0];*/
 
 
 
@@ -49,7 +50,7 @@ grado
 
 .eq("tipo","pedido")
 
-.eq("fecha_almuerzo",hoy);
+.eq("fecha_almuerzo",fechaSeleccionada);
 
 
 
@@ -118,7 +119,7 @@ supabase.removeChannel(canal);
 
 
 
-},[]);
+},[fechaSeleccionada]);
 
 
 
@@ -197,7 +198,46 @@ return (
 
 </h1>
 
+<div
+style={{
+marginTop:"20px",
+marginBottom:"20px"
+}}
+>
 
+<label
+style={{
+fontWeight:"bold"
+}}
+>
+
+Fecha
+
+</label>
+
+<input
+
+type="date"
+
+value={fechaSeleccionada}
+
+onChange={(e)=>setFechaSeleccionada(e.target.value)}
+
+style={{
+
+width:"100%",
+
+padding:"12px",
+
+marginTop:"8px",
+
+borderRadius:"8px"
+
+}}
+
+/>
+
+</div>
 
 
 <div

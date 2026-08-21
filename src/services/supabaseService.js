@@ -117,10 +117,7 @@ tipo:"pedido",
 
 monto:pedido.monto,
 
-fecha_almuerzo:
-new Date()
-.toISOString()
-.split("T")[0],
+fecha_almuerzo:pedido.fecha_almuerzo,
 
 detalle:"Pedido de almuerzo"
 
@@ -142,10 +139,7 @@ tipo:"pago",
 
 monto:pedido.monto,
 
-fecha_almuerzo:
-new Date()
-.toISOString()
-.split("T")[0],
+fecha_almuerzo:pedido.fecha_almuerzo,
 
 detalle:"Pago del almuerzo"
 

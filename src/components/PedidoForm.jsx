@@ -4,420 +4,507 @@ import { useState } from "react";
 function PedidoForm({ alumnos, onGuardar }) {
 
 
-const [nivel,setNivel] = useState("");
+    const [nivel, setNivel] = useState("");
 
-const [grado,setGrado] = useState("");
+    const [grado, setGrado] = useState("");
 
-const [alumno,setAlumno] = useState("");
+    const [alumno, setAlumno] = useState("");
 
-const [estado,setEstado] = useState("debe");
+    const [estado, setEstado] = useState("debe");
 
+    const [usarFechaAnterior, setUsarFechaAnterior] = useState(false);
 
+    const [fecha, setFecha] = useState(
+        new Date().toLocaleDateString("en-CA")
+    );
 
-const grados = {
 
-Inicial:[
-"3 años",
-"4 años",
-"5 años"
-],
 
-Primaria:[
-"1er grado",
-"2do grado",
-"3er grado",
-"4to grado",
-"5to grado",
-"6to grado"
-]
+    const grados = {
 
-};
+        Inicial: [
+            "3 años",
+            "4 años",
+            "5 años"
+        ],
 
+        Primaria: [
+            "1er grado",
+            "2do grado",
+            "3er grado",
+            "4to grado",
+            "5to grado",
+            "6to grado"
+        ]
 
+    };
 
-function guardar(e){
 
-e.preventDefault();
 
+    function guardar(e) {
 
+        e.preventDefault();
 
-if(!nivel || !grado || !alumno){
 
-alert("Complete todos los campos");
+        if (!nivel || !grado || !alumno) {
 
-return;
+            alert("Complete todos los campos");
 
-}
+            return;
 
+        }
 
 
-const seleccionado = alumnos.find(
 
-a=>a.id===Number(alumno)
+        const seleccionado = alumnos.find(
 
-);
+            a => a.id === Number(alumno)
 
+        );
 
 
-const precio =
-seleccionado.nivel==="Inicial"
-?
-8
-:
-9;
 
+        const precio =
+            seleccionado.nivel === "Inicial"
+                ?
+                8
+                :
+                9;
 
 
-onGuardar({
 
-alumno_id:seleccionado.id,
+        onGuardar({
 
-monto:precio,
+            alumno_id: seleccionado.id,
 
-pagado:estado==="pago"
+            monto: precio,
 
-});
+            pagado: estado === "pago",
 
+            fecha_almuerzo: fecha
 
+        });
 
-setAlumno("");
 
-setEstado("debe");
 
+        setAlumno("");
 
-}
+        setEstado("debe");
 
+        setUsarFechaAnterior(false);
 
+        setFecha(
+            new Date().toLocaleDateString("en-CA")
+        );
 
 
-const alumnosMostrar = alumnos.filter(
+    }
 
-a=>
 
-a.nivel===nivel &&
-a.grado===grado
 
-);
+    const alumnosMostrar = alumnos.filter(
 
+        a =>
 
+            a.nivel === nivel &&
+            a.grado === grado
 
-return (
+    );
 
-<form
 
-onSubmit={guardar}
 
-style={{
+    const hoy = new Date().toLocaleDateString("en-CA");
 
-background:"#fff",
 
-padding:"20px",
 
-borderRadius:"12px"
+    return (
 
-}}
+        <form
 
->
+            onSubmit={guardar}
 
+            style={{
 
-<h3>
-🍽 Nuevo pedido
-</h3>
+                background: "#fff",
 
+                padding: "20px",
 
+                borderRadius: "12px"
 
-<label>
-Nivel
-</label>
+            }}
 
+        >
 
-<select
 
-value={nivel}
+            <h3>
+                🍽 Nuevo pedido
+            </h3>
 
-onChange={e=>{
 
-setNivel(e.target.value);
 
-setGrado("");
+            <label>
+                Nivel
+            </label>
 
-setAlumno("");
 
-}}
+            <select
 
-style={{
-width:"100%",
-padding:"12px",
-marginBottom:"15px"
-}}
+                value={nivel}
 
->
+                onChange={e => {
 
+                    setNivel(e.target.value);
 
-<option value="">
-Seleccionar
-</option>
+                    setGrado("");
 
+                    setAlumno("");
 
-<option value="Inicial">
-Inicial
-</option>
+                }}
 
+                style={{
+                    width: "100%",
+                    padding: "12px",
+                    marginBottom: "15px"
+                }}
 
-<option value="Primaria">
-Primaria
-</option>
+            >
 
 
-</select>
+                <option value="">
+                    Seleccionar
+                </option>
 
 
+                <option value="Inicial">
+                    Inicial
+                </option>
 
 
+                <option value="Primaria">
+                    Primaria
+                </option>
 
-{
-nivel &&
 
-<>
+            </select>
 
 
-<label>
-Grado / Edad
-</label>
 
 
-<select
+            {
 
-value={grado}
+                nivel &&
 
-onChange={e=>{
+                <>
 
-setGrado(e.target.value);
 
-setAlumno("");
+                    <label>
+                        Grado / Edad
+                    </label>
 
-}}
 
-style={{
-width:"100%",
-padding:"12px",
-marginBottom:"15px"
-}}
+                    <select
 
->
+                        value={grado}
 
+                        onChange={e => {
 
-<option value="">
-Seleccionar
-</option>
+                            setGrado(e.target.value);
 
+                            setAlumno("");
 
-{
+                        }}
 
-grados[nivel].map(g=>(
+                        style={{
+                            width: "100%",
+                            padding: "12px",
+                            marginBottom: "15px"
+                        }}
 
-<option
+                    >
 
-key={g}
 
-value={g}
+                        <option value="">
+                            Seleccionar
+                        </option>
 
->
 
-{g}
+                        {
 
-</option>
+                            grados[nivel].map(g => (
 
-))
+                                <option
 
-}
+                                    key={g}
 
+                                    value={g}
 
-</select>
+                                >
 
+                                    {g}
 
-</>
+                                </option>
 
-}
+                            ))
 
+                        }
 
 
+                    </select>
 
 
-{
-grado &&
+                </>
 
-<>
+            }
 
 
-<label>
-Alumno
-</label>
 
 
-<select
+            {
 
-value={alumno}
+                grado &&
 
-onChange={e=>setAlumno(e.target.value)}
+                <>
 
-style={{
-width:"100%",
-padding:"12px"
-}}
 
->
+                    <label>
+                        Alumno
+                    </label>
 
 
-<option value="">
-Seleccionar alumno
-</option>
+                    <select
 
+                        value={alumno}
 
-{
+                        onChange={e => setAlumno(e.target.value)}
 
-alumnosMostrar.map(a=>(
+                        style={{
+                            width: "100%",
+                            padding: "12px"
+                        }}
 
-<option
+                    >
 
-key={a.id}
 
-value={a.id}
+                        <option value="">
+                            Seleccionar alumno
+                        </option>
 
->
 
-{a.nombre}
+                        {
 
-</option>
+                            alumnosMostrar.map(a => (
 
-))
+                                <option
 
-}
+                                    key={a.id}
 
+                                    value={a.id}
 
-</select>
+                                >
 
+                                    {a.nombre}
 
-</>
+                                </option>
 
-}
+                            ))
 
+                        }
 
 
+                    </select>
 
 
-{
-alumno &&
+                </>
 
-<>
+            }
 
 
-<div
 
-style={{
 
-background:"#dcfce7",
+            {
 
-padding:"15px",
+                alumno &&
 
-marginTop:"15px",
+                <>
 
-borderRadius:"10px"
 
-}}
+                    <div
 
->
+                        style={{
 
-Precio:
+                            background: "#dcfce7",
 
-<b>
+                            padding: "15px",
 
-S/ {nivel==="Inicial"?8:9}
+                            marginTop: "15px",
 
-</b>
+                            borderRadius: "10px"
 
+                        }}
 
-</div>
+                    >
 
+                        Precio:
 
+                        <b>
 
-<h4>
-Estado del pedido
-</h4>
+                            S/ {nivel === "Inicial" ? 8 : 9}
 
+                        </b>
 
-<label>
 
-<input
+                    </div>
 
-type="radio"
 
-checked={estado==="pago"}
 
-onChange={()=>setEstado("pago")}
+                    <h4>
+                        Estado del pedido
+                    </h4>
 
-/>
 
- 🟢 Pagó
+                    <label>
 
+                        <input
 
-</label>
+                            type="radio"
 
+                            checked={estado === "pago"}
 
+                            onChange={() => setEstado("pago")}
 
-<br/>
+                        />
 
+                        🟢 Pagó
 
-<label>
+                    </label>
 
-<input
 
-type="radio"
 
-checked={estado==="debe"}
+                    <br />
 
-onChange={()=>setEstado("debe")}
 
-/>
 
- 🔴 Debe
+                    <label>
 
+                        <input
 
-</label>
+                            type="radio"
 
+                            checked={estado === "debe"}
 
-</>
+                            onChange={() => setEstado("debe")}
 
-}
+                        />
 
+                        🔴 Debe
 
+                    </label>
 
 
 
-<button
+                    <h4 style={{ marginTop: "20px" }}>
+                        Fecha del menú
+                    </h4>
 
-style={{
 
-width:"100%",
 
-padding:"12px",
+                    <label>
 
-marginTop:"20px"
+                        <input
 
-}}
+                            type="checkbox"
 
->
+                            checked={usarFechaAnterior}
 
-Registrar pedido
+                            onChange={e => {
 
-</button>
+                                setUsarFechaAnterior(e.target.checked);
 
+                                setFecha(hoy);
 
+                            }}
 
-</form>
+                        />
 
-);
+                        Registrar pedido de una fecha anterior
 
+                    </label>
+
+
+
+                    {
+
+                        usarFechaAnterior &&
+
+                        <div style={{ marginTop: "10px" }}>
+
+                            <input
+
+                                type="date"
+
+                                value={fecha}
+
+                                max={hoy}
+
+                                onChange={e => setFecha(e.target.value)}
+
+                                style={{
+
+                                    width: "100%",
+
+                                    padding: "12px"
+
+                                }}
+
+                            />
+
+                            <p style={{
+
+                                fontSize: "14px",
+
+                                marginTop: "8px",
+
+                                color: "#666"
+
+                            }}>
+
+                                Solo se pueden seleccionar fechas anteriores a hoy.
+
+                            </p>
+
+                        </div>
+
+                    }
+
+
+
+                    <button
+
+                        style={{
+
+                            width: "100%",
+
+                            padding: "12px",
+
+                            marginTop: "20px"
+
+                        }}
+
+                    >
+
+                        Registrar pedido
+
+                    </button>
+
+
+                </>
+
+            }
+
+
+        </form>
+
+    );
 
 }
 

@@ -1,15 +1,52 @@
 function HistorialTable({movimientos}){
 
 
+function mostrarFecha(fecha, esFechaAlmuerzo){
+
+if(!fecha){
+
+return "";
+
+}
+
+
+if(esFechaAlmuerzo){
+
+const [anio,mes,dia] = fecha.split("-");
+
+return `${dia}/${mes}/${anio}`;
+
+}
+
+
+const fechaLocal = new Date(fecha);
+
+const dia = String(fechaLocal.getDate()).padStart(2,"0");
+
+const mes = String(fechaLocal.getMonth() + 1).padStart(2,"0");
+
+const anio = fechaLocal.getFullYear();
+
+return `${dia}/${mes}/${anio}`;
+
+}
+
+
+
 return (
 
 <div
 
 style={{
+
 marginTop:"20px",
+
 background:"#fff",
+
 padding:"15px",
+
 borderRadius:"10px"
+
 }}
 
 >
@@ -37,8 +74,11 @@ Sin movimientos
 <table
 
 style={{
+
 width:"100%",
+
 marginTop:"10px"
+
 }}
 
 >
@@ -74,18 +114,38 @@ Monto
 
 {
 
-movimientos.map(m=>(
+movimientos.map(m=>{
 
+
+const esPedido = m.tipo === "pedido";
+
+
+const fechaMostrar = mostrarFecha(
+
+esPedido
+
+?
+
+m.fecha_almuerzo
+
+:
+
+m.fecha_registro,
+
+esPedido
+
+);
+
+
+
+return (
 
 <tr key={m.id}>
 
 
 <td>
 
-{
-new Date(m.fecha_registro)
-.toLocaleDateString()
-}
+{fechaMostrar}
 
 </td>
 
@@ -129,8 +189,9 @@ S/ {Number(m.monto).toFixed(2)}
 
 </tr>
 
+);
 
-))
+})
 
 }
 

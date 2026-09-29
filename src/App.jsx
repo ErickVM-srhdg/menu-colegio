@@ -7,6 +7,7 @@ import Pagos from "./pages/Pagos";
 import Historial from "./pages/Historial";
 import Cocina from "./pages/Cocina";
 import Reportes from "./pages/Reportes";
+import EstadoCuentas from "./pages/EstadoCuentas";
 
 
 
@@ -72,6 +73,9 @@ marginTop:"25px"
 
 </Link>
 
+<Link to="/estado-cuentas">
+    <button>📋 Estado de cuentas</button>
+</Link>
 
 
 <Link to="/historial">
@@ -168,7 +172,7 @@ element={<Pagos/>}
 
 />
 
-
+<Route path="/estado-cuentas" element={<EstadoCuentas/>}/>
 
 <Route
 

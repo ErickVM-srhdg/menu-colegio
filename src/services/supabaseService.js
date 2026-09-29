@@ -674,3 +674,36 @@ a.consumido-a.pagado
 
 
 }
+
+export async function obtenerEstadoCuentas(){
+
+    const {data,error}=await supabase
+
+    .from("alumnos")
+
+    .select(`
+        id,
+        nombre,
+        nivel,
+        grado,
+        movimientos(
+            id,
+            tipo,
+            monto,
+            fecha_registro,
+            fecha_almuerzo,
+            detalle
+        )
+    `)
+
+    .eq("activo",true)
+
+    .order("nombre");
+
+
+    if(error) throw error;
+
+
+    return data;
+
+}
